@@ -160,16 +160,35 @@ $(document).ready(function() {
             list = $('.restaurant_row');
 
             for (i = 0; i < data.length; i++) {
-              console.log(data[i]['name']);
-                html = '<div id="restaurant_' + i + '"><a href="#">' + data[i]['name'] + '</a></div>';
-                list.append(html);
-                $('.restaurant_' + i).click(fetchAndUpdateInfo(data[i]['details']));
+                console.log(data[i]['description']);
+                $('#review_info').append(data[i]['description'])
+                    //  $('#restaurant_' + i).click(fetchAndUpdateInfo(data[i]['details']));
             }
-            $(".date").datepicker({
-                dateFormat: "yy-mm-dd"
-            });
-            $('form').hide();
-            $('#postUnicorn').click(postUnicorn());
-            $('#putUnicorn').click(putUnicorn());
         });
+
+    $.ajax({
+        url: "http://mahlunch.antontibblin.se/today",
+        headers: {
+            "Accept": "application/json"
+        }
+    }).done(function(data) {
+        console.log(data);
+        for (i = 0; i < temp.length; i++) {
+            html = "<div class='row'" + temp[i] + "</div>";
+            $('#restaurant_info').append(temp[i]).append(html);
+        }
+    });
+
+    // $.ajax({
+    //     url: "http://mahlunch.antontibblin.se/restaurants",
+    //     headers: {
+    //         "Accept": "application/json"
+    //     }
+    // }).done(function(data) {
+    //     temp = data['Restaurants'];
+    //     for (i = 0; i < temp.length; i++) {
+    //         html = "<div class='row'" + temp[i] + "</div>";
+    //         $('#restaurant_info').append(temp[i]).append(html);
+    //     }
+    // });
 });
