@@ -157,15 +157,13 @@ $(document).ready(function() {
             }
         })
         .done(function(data) {
-
-            console.log(data.length);
-
-            list = $('#unicorns');
+            list = $('.restaurant_row');
 
             for (i = 0; i < data.length; i++) {
-                html = '<li id="unicorn_' + i + '"><a href="#">' + data[i]['name'] + '</a></li>';
+              console.log(data[i]['name']);
+                html = '<div id="restaurant_' + i + '"><a href="#">' + data[i]['name'] + '</a></div>';
                 list.append(html);
-                $('#unicorn_' + i).click(fetchAndUpdateInfo(data[i]['details']));
+                $('.restaurant_' + i).click(fetchAndUpdateInfo(data[i]['details']));
             }
             $(".date").datepicker({
                 dateFormat: "yy-mm-dd"
@@ -174,5 +172,4 @@ $(document).ready(function() {
             $('#postUnicorn').click(postUnicorn());
             $('#putUnicorn').click(putUnicorn());
         });
-
 });
