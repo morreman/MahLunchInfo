@@ -1,0 +1,31 @@
+table {
+  border-spacing: 10px;
+  border-collapse: separate;
+  cellspacing: 100px;
+  width: 1200px;
+}
+td {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+li {
+  cursor: pointer;
+}
+
+#unicornImage img {
+  max-width: 400px;
+}
+
+#list {
+  width: 300px;
+}
+
+form {
+  padding: 10px;
+}
+
+label {
+  display: inline-block;
+  width: 150px;
+}
