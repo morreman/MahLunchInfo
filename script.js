@@ -168,6 +168,7 @@ $(document).ready(function() {
 
     $.ajax({
         url: "http://mahlunch.antontibblin.se/restaurants",
+        datatype:"json",
         headers: {
             "Accept": "application/json"
         }
@@ -180,13 +181,15 @@ $(document).ready(function() {
           if(temp[i] == "Niagara"){
             $.ajax({
               url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
+              datatype: "json",
               headers: {
                   "Accept": "application/json"
               }
             }).done(function(data){
-              console.log(data[""]);
-              html = "<div class='row classe'>" + data["Local"]["title"] + "</div>";
+              console.log(data);
+              html = "<div class='row niagara'>" + data.Local.title + "</div>";
               $('#restaurant_info').append(html);
+
             });
           }else if(temp[i] == "Miamaria"){
             $.ajax({
@@ -239,7 +242,7 @@ $(document).ready(function() {
               }
             }).done(function(data){
               console.log(data[""]);
-              html = "<div class='row'>" + data["1"]["title"] + "</div>";
+              html = "<div class='row'>INGET HÄR JUST NU</div>";
               $('#restaurant_info').append(html);
             });
           }
