@@ -167,88 +167,34 @@ $(document).ready(function() {
         });
 
     $.ajax({
-        url: "http://mahlunch.antontibblin.se/restaurants",
-        datatype:"json",
+        url: "http://mahlunch.antontibblin.se/today",
         headers: {
             "Accept": "application/json"
         }
     }).done(function(data) {
-        temp = data["Restaurants"];
-        console.log(temp);
-        name = "";
-        for (i = 0; i < temp.length; i++) {
-          name = temp[i];
-          if(temp[i] == "Niagara"){
-            $.ajax({
-              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
-              datatype: "json",
-              headers: {
-                  "Accept": "application/json"
-              }
-            }).done(function(data){
-              console.log(data);
-              html = "<div class='row niagara'>" + data.Local.title + "</div>";
-              $('#restaurant_info').append(html);
 
-            });
-          }else if(temp[i] == "Miamaria"){
-            $.ajax({
-              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
-              headers: {
-                  "Accept": "application/json"
-              }
-            }).done(function(data){
-              console.log(data[""]);
-              html = "<div class='row'>" + data["Fisk"]["title"] + "</div>";
-              $('#restaurant_info').append(html);
-            });
-          }else if(temp[i] == "Labonnevie"){
-            $.ajax({
-              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
-              headers: {
-                  "Accept": "application/json"
-              }
-            }).done(function(data){
-              console.log(data[""]);
-              $('#restaurant_info').append("<div class='row'>" +"<p>" + data["Dagens rätt"]["title"] + "</p>" + "</div>");
-            });
-          }else if(temp[i] == "Lillakoket"){
-            $.ajax({
-              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
-              headers: {
-                  "Accept": "application/json"
-              }
-            }).done(function(data){
-              console.log(data[""]);
-              html = "<div class='row'>" + data["1"]["title"] + "</div>";
-              $('#restaurant_info').append(html);
-            });
-          }else if(temp[i] == "Valfarden"){
-            $.ajax({
-              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
-              headers: {
-                  "Accept": "application/json"
-              }
-            }).done(function(data){
-              console.log(data[""]);
-              html = "<div class='row'>" + data["1"]["title"] + "</div>";
-              $('#restaurant_info').append(html);
-            });
-          }else if(temp[i] == "Mhmatsalar"){
-            $.ajax({
-              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
-              headers: {
-                  "Accept": "application/json"
-              }
-            }).done(function(data){
-              console.log(data[""]);
-              html = "<div class='row'>INGET HÄR JUST NU</div>";
-              $('#restaurant_info').append(html);
-            });
-          }
-        }
+        niagara = data["Restaurang Niagara"];
+        miamaria = data["Mia Maria"];
+        valfarden = data["Välfärden"];
+        lillakoket = data["Lilla Köket"];
+        labonnevie = data["La Bonne Vie"];
+        mhmatsalar = data["MH Matsalar"];
+
+        buildDiv("Restaurang Niagara", niagara.Local.title, niagara.Local.price);
+        buildDiv("Mia Maria", miamaria.Kött.title, miamaria.Kött.price);
+        buildDiv("Välfärden", valfarden["1"].title, valfarden["1"].price);
+        buildDiv("Lilla Köket", lillakoket["1"].title, lillakoket["1"].price);
+        buildDiv("La Bonne Vie", labonnevie["Dagens rätt"].title, labonnevie["Dagens rätt"].price);
+        buildDiv("MH Matsalar", "Just nu serverar inte MH Matsalar någon mat.", 0);
     });
 
+    function buildDiv(restaurant, lunchtitle, price) {
+        html = '<div class="row"><div class="col-sm-6"><h2>' + restaurant + '</h2>' +
+            '<div><p class="col-sm-8">' + lunchtitle + '</p><p class="col-sm-4">' + price + '</p>' +
+            '</div></div><div class="col-sm-3"><p>Järn 100%</p><p>Kalcium 20%</p><p>Magnesium >0%</p>' +
+            '</div><div class="col-sm-3"><p>Nått diagram</p><p>Senast jag åt här var det gott!</p></div></div>';
+        $("#restaurant_info").append(html);
+    }
     // $.ajax({
     //     url: "http://mahlunch.antontibblin.se/restaurants",
     //     headers: {
