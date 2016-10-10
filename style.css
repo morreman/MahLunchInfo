@@ -1,38 +1,25 @@
-table {
-  border-spacing: 10px;
-  border-collapse: separate;
-  cellspacing: 100px;
-  width: 1200px;
-}
-td {
-  border: 1px solid black;
-  padding: 10px;
-}
-
-li {
-  cursor: pointer;
+.restaurant_div {
+    background-image: url(http://stiritupmagazine.co.uk/wp-content/uploads/2015/03/Hospital-food-background.jpg);
+    background-position: 0% 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-shadow: white 0.5em 0.5em 0.5em;
+    font-size: 30px;
+    font-weight: bold;
+    border-radius: 20px;
 }
 
-#list {
-  width: 300px;
+.restaurant_row {
+    min-height: 200px;
+    padding: 20px;
+    margin: 10px;
 }
 
-form {
-  padding: 10px;
-}
-
-label {
-  display: inline-block;
-  width: 150px;
-}
-
-.container{
-  background-color: skyblue;
-  border-radius: 20px;
-  font-style: italic;
-}
-
-.restaurant_row{
-  padding: 20px;
-  margin: 10px;
+.jumbotron {
+    background-image: url(http://previews.123rf.com/images/nikkiphoto/nikkiphoto1404/nikkiphoto140400001/27569571-Fresh-organic-vegetables-Food-background-Healthy-food-from-garden-Stock-Photo.jpg);
+    background-position: 0% 90%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-shadow: white 0.3em 0.3em 0.3em;
+    margin: 10px;
 }
