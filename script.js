@@ -172,19 +172,77 @@ $(document).ready(function() {
             "Accept": "application/json"
         }
     }).done(function(data) {
-        console.log(data);
         temp = data["Restaurants"];
+        console.log(temp);
+        name = "";
         for (i = 0; i < temp.length; i++) {
-          $.ajax({
-            url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
-            headers: {
-                "Accept": "application/json"
-            }
-          }).done(function(data){
-            console.log(data);
-            html = "<div class='row'" + data[i] + "</div>";
-            $('#restaurant_info').append(data["title"]).append(html);
-          });
+          name = temp[i];
+          if(temp[i] == "Niagara"){
+            $.ajax({
+              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
+              headers: {
+                  "Accept": "application/json"
+              }
+            }).done(function(data){
+              console.log(data[""]);
+              html = "<div class='row classe'>" + data["Local"]["title"] + "</div>";
+              $('#restaurant_info').append(html);
+            });
+          }else if(temp[i] == "Miamaria"){
+            $.ajax({
+              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
+              headers: {
+                  "Accept": "application/json"
+              }
+            }).done(function(data){
+              console.log(data[""]);
+              html = "<div class='row'>" + data["Fisk"]["title"] + "</div>";
+              $('#restaurant_info').append(html);
+            });
+          }else if(temp[i] == "Labonnevie"){
+            $.ajax({
+              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
+              headers: {
+                  "Accept": "application/json"
+              }
+            }).done(function(data){
+              console.log(data[""]);
+              $('#restaurant_info').append("<div class='row'>" +"<p>" + data["Dagens rätt"]["title"] + "</p>" + "</div>");
+            });
+          }else if(temp[i] == "Lillakoket"){
+            $.ajax({
+              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
+              headers: {
+                  "Accept": "application/json"
+              }
+            }).done(function(data){
+              console.log(data[""]);
+              html = "<div class='row'>" + data["1"]["title"] + "</div>";
+              $('#restaurant_info').append(html);
+            });
+          }else if(temp[i] == "Valfarden"){
+            $.ajax({
+              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
+              headers: {
+                  "Accept": "application/json"
+              }
+            }).done(function(data){
+              console.log(data[""]);
+              html = "<div class='row'>" + data["1"]["title"] + "</div>";
+              $('#restaurant_info').append(html);
+            });
+          }else if(temp[i] == "Mhmatsalar"){
+            $.ajax({
+              url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
+              headers: {
+                  "Accept": "application/json"
+              }
+            }).done(function(data){
+              console.log(data[""]);
+              html = "<div class='row'>" + data["1"]["title"] + "</div>";
+              $('#restaurant_info').append(html);
+            });
+          }
         }
     });
 
