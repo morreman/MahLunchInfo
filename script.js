@@ -173,9 +173,9 @@ $(document).ready(function() {
         }
     }).done(function(data) {
         console.log(data);
-        for (i = 0; i < temp.length; i++) {
-            html = "<div class='row'" + temp[i] + "</div>";
-            $('#restaurant_info').append(temp[i]).append(html);
+        for (i = 0; i < data.length; i++) {
+            html = "<div class='row'" + data[i] + "</div>";
+            $('#restaurant_info').append(data[i]).append(html);
         }
     });
 
