@@ -167,15 +167,24 @@ $(document).ready(function() {
         });
 
     $.ajax({
-        url: "http://mahlunch.antontibblin.se/today",
+        url: "http://mahlunch.antontibblin.se/restaurants",
         headers: {
             "Accept": "application/json"
         }
     }).done(function(data) {
         console.log(data);
+        temp = data["Restaurants"];
         for (i = 0; i < temp.length; i++) {
-            html = "<div class='row'" + temp[i] + "</div>";
-            $('#restaurant_info').append(temp[i]).append(html);
+          $.ajax({
+            url: "http://mahlunch.antontibblin.se/" + temp[i] + "/today",
+            headers: {
+                "Accept": "application/json"
+            }
+          }).done(function(data){
+            console.log(data);
+            html = "<div class='row'" + data[i] + "</div>";
+            $('#restaurant_info').append(data["title"]).append(html);
+          });
         }
     });
 
