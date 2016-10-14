@@ -1,3 +1,11 @@
+var callurl = "http://matapi.se/foodstuff";
+var niagaraNumbers = [];
+var labonnevieNumbers = [];
+var miamariaNumbers = [];
+var valfardenNumbers = [];
+var lillakoketNumbers = [];
+
+
 function deleteUnicorn(unicorn) {
     return function() {
         $.ajax({
@@ -180,6 +188,67 @@ $(document).ready(function() {
         labonnevie = data["La Bonne Vie"];
         mhmatsalar = data["MH Matsalar"];
 
+        niagaraLunch = niagara.Local.title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+        for (var i = 0; i < niagaraLunch.length; i++) {
+            if (niagaraLunch[i].length > 3 && niagaraLunch[i] != null) {
+                $.ajax({
+                        url: callurl,
+                        dataType: 'jsonp',
+                        data: {
+                            query: niagaraLunch[i]
+                        }
+                    }).error(function(jqXHR, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    }).done(function(data) {
+                        console.log(data[0]);
+                        console.log("SUCCESS");
+                        niagaraNumbers.append(data);
+                    }).fail(function() {
+                        console.log("FAIL");
+                    });
+            }
+        }
+        console.log(niagaraNumbers[0]);
+
+
+
+        // miamariaLunch = miamaria.Kött.title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+        // $.ajax({
+        //     url: callurl,
+        //     dataType: "JSON",
+        //     data: {
+        //         query: searchTerm
+        //     }
+        // })
+        //
+        // valfardenLunch = valfarden['1'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+        // $.ajax({
+        //     url: callurl,
+        //     dataType: "JSON",
+        //     data: {
+        //         query: searchTerm
+        //     }
+        // })
+        //
+        // lillakoketLunch = lillakoket['1'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+        // $.ajax({
+        //     url: callurl,
+        //     dataType: "JSON",
+        //     data: {
+        //         query: searchTerm
+        //     }
+        // })
+        //
+        // labonnevieLunch = labonnevie['Dagens rätt'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+        // $.ajax({
+        //     url: callurl,
+        //     dataType: "JSON",
+        //     data: {
+        //         query: searchTerm
+        //     }
+        // })
+
+
         buildDiv("Restaurang Niagara", niagara.Local.title, niagara.Local.price);
         buildDiv("Mia Maria", miamaria.Kött.title, miamaria.Kött.price);
         buildDiv("Välfärden", valfarden["1"].title, valfarden["1"].price);
@@ -188,6 +257,7 @@ $(document).ready(function() {
         buildDiv("MH Matsalar", "Just nu serverar inte MH Matsalar någon mat.", 0);
     });
 
+
     function buildDiv(restaurant, lunchtitle, price) {
         html = '<div class="row"><div class="col-sm-6"><h2>' + restaurant + '</h2>' +
             '<div><p class="col-sm-8">' + lunchtitle + '</p><p class="col-sm-4">' + price + '</p>' +
@@ -195,16 +265,4 @@ $(document).ready(function() {
             '</div><div class="col-sm-3"><p>Nått diagram</p><p>Senast jag åt här var det gott!</p></div></div>';
         $("#restaurant_info").append(html);
     }
-    // $.ajax({
-    //     url: "http://mahlunch.antontibblin.se/restaurants",
-    //     headers: {
-    //         "Accept": "application/json"
-    //     }
-    // }).done(function(data) {
-    //     temp = data['Restaurants'];
-    //     for (i = 0; i < temp.length; i++) {
-    //         html = "<div class='row'" + temp[i] + "</div>";
-    //         $('#restaurant_info').append(temp[i]).append(html);
-    //     }
-    // });
 });
