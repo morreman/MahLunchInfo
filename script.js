@@ -1,4 +1,4 @@
-var callurl = "http://matapi.se/foodstuff";
+var callurl = "http://www.matapi.se/foodstuff?query=";
 var niagaraNumbers = [];
 var labonnevieNumbers = [];
 var miamariaNumbers = [];
@@ -182,72 +182,41 @@ $(document).ready(function() {
     }).done(function(data) {
 
         niagara = data["Restaurang Niagara"];
+        niagaraLunch = niagara.Local.title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+
         miamaria = data["Mia Maria"];
+        miamariaLunch = miamaria.Kött.title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+
         valfarden = data["Välfärden"];
+        valfardenLunch = valfarden['1'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+
         lillakoket = data["Lilla Köket"];
+        lillakoketLunch = lillakoket['1'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+
         labonnevie = data["La Bonne Vie"];
+        labonnevieLunch = labonnevie['Dagens rätt'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+
+        // Har ingen mat för tillfället.
         mhmatsalar = data["MH Matsalar"];
 
-        niagaraLunch = niagara.Local.title.replace(/[^a-öA-Ö ]/g, "").split(' ');
-        for (var i = 0; i < niagaraLunch.length; i++) {
-            if (niagaraLunch[i].length > 3 && niagaraLunch[i] != null) {
-                $.ajax({
-                        url: callurl,
-                        dataType: 'jsonp',
-                        data: {
-                            query: niagaraLunch[i]
-                        }
-                    }).error(function(jqXHR, textStatus, errorThrown) {
-                        console.log(errorThrown);
-                    }).done(function(data) {
-                        console.log(data[0]);
-                        console.log("SUCCESS");
-                        niagaraNumbers.append(data);
-                    }).fail(function() {
-                        console.log("FAIL");
-                    });
-            }
+
+        var niagaraMatApi = loop_restaurant(niagaraLunch);
+        var miamariaMatApi = loop_restaurant(miamariaLunch);
+        var valfardenMatApi = loop_restaurant(valfardenLunch);
+        var lillakoketMatApi = loop_restaurant(lillakoketLunch);
+        var labonnevieMatApi = loop_restaurant(labonnevieLunch);
+
+
+        console.log(niagaraMatApi);
+        console.log(miamariaMatApi);
+        console.log(valfardenMatApi);
+        console.log(lillakoketMatApi);
+        console.log(labonnevieMatApi);
+
+
+        if (niagaraMatApi.length > 0) {
+            loop_nutrition(niagaraMatApi);
         }
-        console.log(niagaraNumbers[0]);
-
-
-
-        // miamariaLunch = miamaria.Kött.title.replace(/[^a-öA-Ö ]/g, "").split(' ');
-        // $.ajax({
-        //     url: callurl,
-        //     dataType: "JSON",
-        //     data: {
-        //         query: searchTerm
-        //     }
-        // })
-        //
-        // valfardenLunch = valfarden['1'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
-        // $.ajax({
-        //     url: callurl,
-        //     dataType: "JSON",
-        //     data: {
-        //         query: searchTerm
-        //     }
-        // })
-        //
-        // lillakoketLunch = lillakoket['1'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
-        // $.ajax({
-        //     url: callurl,
-        //     dataType: "JSON",
-        //     data: {
-        //         query: searchTerm
-        //     }
-        // })
-        //
-        // labonnevieLunch = labonnevie['Dagens rätt'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
-        // $.ajax({
-        //     url: callurl,
-        //     dataType: "JSON",
-        //     data: {
-        //         query: searchTerm
-        //     }
-        // })
-
 
         buildDiv("Restaurang Niagara", niagara.Local.title, niagara.Local.price);
         buildDiv("Mia Maria", miamaria.Kött.title, miamaria.Kött.price);
@@ -256,13 +225,48 @@ $(document).ready(function() {
         buildDiv("La Bonne Vie", labonnevie["Dagens rätt"].title, labonnevie["Dagens rätt"].price);
         buildDiv("MH Matsalar", "Just nu serverar inte MH Matsalar någon mat.", 0);
     });
-
-
-    function buildDiv(restaurant, lunchtitle, price) {
-        html = '<div class="row"><div class="col-sm-6"><h2>' + restaurant + '</h2>' +
-            '<div><p class="col-sm-8">' + lunchtitle + '</p><p class="col-sm-4">' + price + '</p>' +
-            '</div></div><div class="col-sm-3"><p>Järn 100%</p><p>Kalcium 20%</p><p>Magnesium >0%</p>' +
-            '</div><div class="col-sm-3"><p>Nått diagram</p><p>Senast jag åt här var det gott!</p></div></div>';
-        $("#restaurant_info").append(html);
-    }
 });
+
+
+
+function loop_restaurant(restaurant) {
+    var foodItems = [];
+    $.ajaxPrefilter(function(options) {
+        if (options.crossDomain && jQuery.support.cors) {
+            var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+            options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
+        }
+    });
+
+    for (var i = 0; i < restaurant.length; i++) {
+        if (restaurant[i] != undefined) {
+            if (restaurant[i].length > 3) {
+                $.getJSON(
+                    callurl + restaurant[i],
+                    function(response) {
+                        if (response[0] != undefined) {
+                            foodItems.push(response[0].number);
+                        }
+                    });
+            }
+        }
+    }
+    return foodItems;
+}
+
+
+function loop_nutrition(food_type) {
+    console.log(food_type.length);
+    for (var i = 0; i < food_type.length; i++) {
+        console.log(food_type[i].value);
+    }
+}
+
+
+function buildDiv(restaurant, lunchtitle, price) {
+    html = '<div class="row"><div class="col-sm-6"><h2>' + restaurant + '</h2>' +
+        '<div><p class="col-sm-8">' + lunchtitle + '</p><p class="col-sm-4">' + price + '</p>' +
+        '</div></div><div class="col-sm-3"><p>Järn 100%</p><p>Kalcium 20%</p><p>Magnesium >0%</p>' +
+        '</div><div class="col-sm-3"><p>Nått diagram</p><p>Senast jag åt här var det gott!</p></div></div>';
+    $("#restaurant_info").append(html);
+}
