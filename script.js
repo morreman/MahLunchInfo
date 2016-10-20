@@ -5,7 +5,7 @@ var miamariaNumbers = [];
 var valfardenNumbers = [];
 var lillakoketNumbers = [];
 var hold = [];
-
+var description;
 
 
 function deleteUnicorn(unicorn) {
@@ -168,10 +168,10 @@ $(document).ready(function() {
         })
         .done(function(data) {
             list = $('.restaurant_row');
-
             for (i = 0; i < data.length; i++) {
                 console.log(data[i]['description']);
                 $('#review_info').append(data[i]['description'])
+                description = data[i]['description'];
                     //  $('#restaurant_' + i).click(fetchAndUpdateInfo(data[i]['details']));
             }
         });
@@ -218,7 +218,6 @@ $(document).ready(function() {
         Array.prototype.push.apply(restaurants, [niagaraLunch, miamariaLunch, valfardenLunch, lillakoketLunch, labonnevieLunch]);
 
         for (var i = 0; i < restaurants.length; i++) {
-            console.log(restaurants[i].length);
             for (var j = 0; j < restaurants[i].length; j++) {
                 if (restaurants[i][j] != undefined) {
                     if (restaurants[i][j].length > 3) {
@@ -233,7 +232,7 @@ $(document).ready(function() {
                                             counter++;
                                             if (counter == 1) {
                                                 console.log(nutrition);
-                                                buildDiv("Restaurang Niagara", niagara.Local.title, niagara.Local.price, nutrition.nutrientValues.carbohydrates);
+                                                buildDiv("Restaurang Niagara", niagara.Local.title, niagara.Local.price, nutrition.nutrientValues.carbohydrates, description);
                                             } else if (counter == 2) {
                                                 buildDiv("Mia Maria", miamaria.Kött.title, miamaria.Kött.price. nutrition.nutrientValues.carbohydrates);
                                                 console.log(nutrition);
@@ -305,9 +304,9 @@ function short(words) {
 }
 
 
-function buildDiv(restaurant, lunchtitle, price, nutrient) {
+function buildDiv(restaurant, lunchtitle, price, nutrient, description) {
     html = '<div class="row"><div class="col-sm-6"><h2>' + restaurant + '</h2>' +
-        '<div><p class="col-sm-8">' + lunchtitle + '</p><p class="col-sm-4">' + price + ' Carbs -' + nutrient + '</p>' +
+        '<div><p class="col-sm-8">' + lunchtitle + '</p><p class="col-sm-4">' + price + ' Carbs -' + nutrient + ' Comment-' + description + '</p>' +
         '</div></div><div class="col-sm-3"><p>Järn 100%</p><p>Kalcium 20%</p><p>Magnesium >0%</p>' +
         '</div><div class="col-sm-3"><p>Nått diagram</p><p>Senast jag åt här var det gott!</p></div></div>';
     $("#restaurant_info").append(html);
