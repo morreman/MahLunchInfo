@@ -4,6 +4,8 @@ var labonnevieNumbers = [];
 var miamariaNumbers = [];
 var valfardenNumbers = [];
 var lillakoketNumbers = [];
+var hold = [];
+
 
 
 function deleteUnicorn(unicorn) {
@@ -180,92 +182,132 @@ $(document).ready(function() {
             "Accept": "application/json"
         }
     }).done(function(data) {
+        $.ajaxPrefilter(function(options) {
+            if (options.crossDomain && jQuery.support.cors) {
+                var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+                options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
+            }
+        });
 
         niagara = data["Restaurang Niagara"];
-        niagaraLunch = niagara.Local.title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+        niagaraLunch = niagara.Local.title.replace(/[^a-öA-Ö ]/gi, "").split(' ');
+        niagaraLunch = short(niagaraLunch);
 
         miamaria = data["Mia Maria"];
-        miamariaLunch = miamaria.Kött.title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+        miamariaLunch = miamaria.Kött.title.replace(/[^a-öA-Ö ]/gi, "").split(' ');
+        miamariaLunch = short(miamariaLunch);
 
         valfarden = data["Välfärden"];
-        valfardenLunch = valfarden['1'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+        valfardenLunch = valfarden['1'].title.replace(/[^a-öA-Ö ]/gi, "").split(' ');
+        valfardenLunch = short(valfardenLunch);
 
         lillakoket = data["Lilla Köket"];
-        lillakoketLunch = lillakoket['1'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+        lillakoketLunch = lillakoket['1'].title.replace(/[^a-öA-Ö ]/gi, "").split(' ');
+        lillakoketLunch = short(lillakoketLunch);
 
         labonnevie = data["La Bonne Vie"];
-        labonnevieLunch = labonnevie['Dagens rätt'].title.replace(/[^a-öA-Ö ]/g, "").split(' ');
+        labonnevieLunch = labonnevie['Dagens rätt'].title.replace(/[^a-öA-Ö ]/gi, "").split(' ');
+        labonnevieLunch = short(labonnevieLunch);
 
         // Har ingen mat för tillfället.
         mhmatsalar = data["MH Matsalar"];
 
+        var restaurants = [];
+        var counter = 0;
 
-        var niagaraMatApi = loop_restaurant(niagaraLunch);
-        var miamariaMatApi = loop_restaurant(miamariaLunch);
-        var valfardenMatApi = loop_restaurant(valfardenLunch);
-        var lillakoketMatApi = loop_restaurant(lillakoketLunch);
-        var labonnevieMatApi = loop_restaurant(labonnevieLunch);
+        Array.prototype.push.apply(restaurants, [niagaraLunch, miamariaLunch, valfardenLunch, lillakoketLunch, labonnevieLunch]);
 
-
-        console.log(niagaraMatApi);
-        console.log(miamariaMatApi);
-        console.log(valfardenMatApi);
-        console.log(lillakoketMatApi);
-        console.log(labonnevieMatApi);
-
-
-        if (niagaraMatApi.length > 0) {
-            loop_nutrition(niagaraMatApi);
+        for (var i = 0; i < restaurants.length; i++) {
+            console.log(restaurants[i].length);
+            for (var j = 0; j < restaurants[i].length; j++) {
+                if (restaurants[i][j] != undefined) {
+                    if (restaurants[i][j].length > 3) {
+                        console.log(restaurants[i][j]);
+                        $.getJSON(
+                            callurl + restaurants[i][j],
+                            function(ingridient) {
+                                if (ingridient[0] != undefined) {
+                                    $.get(
+                                        'http://www.matapi.se/foodstuff/' + ingridient[0].number,
+                                        function(nutrition) {
+                                            counter++;
+                                            if (counter == 1) {
+                                                console.log(nutrition);
+                                                buildDiv("Restaurang Niagara", niagara.Local.title, niagara.Local.price, nutrition.nutrientValues.carbohydrates);
+                                            } else if (counter == 2) {
+                                                buildDiv("Mia Maria", miamaria.Kött.title, miamaria.Kött.price. nutrition.nutrientValues.carbohydrates);
+                                                console.log(nutrition);
+                                            } else if (counter == 3) {
+                                                buildDiv("Välfärden", valfarden["1"].title, valfarden["1"].price, nutrition.nutrientValues.carbohydrates);
+                                                console.log(nutrition);
+                                            } else if (counter == 4) {
+                                                buildDiv("Lilla Köket", lillakoket["1"].title, lillakoket["1"].price, nutrition.nutrientValues.carbohydrates);
+                                                console.log(nutrition);
+                                            } else if (counter == 5) {
+                                                buildDiv("La Bonne Vie", labonnevie["Dagens rätt"].title, labonnevie["Dagens rätt"].price, nutrition.nutrientValues.carbohydrates);
+                                                console.log(nutrition);
+                                            } else if (counter == 6) {
+                                                buildDiv("MH Matsalar", "Just nu serverar inte MH Matsalar någon mat.", 0);
+                                            }
+                                        });
+                                    //foodItems.push(response[0].number);
+                                }
+                            });
+                    }
+                }
+            }
         }
-
-        buildDiv("Restaurang Niagara", niagara.Local.title, niagara.Local.price);
-        buildDiv("Mia Maria", miamaria.Kött.title, miamaria.Kött.price);
-        buildDiv("Välfärden", valfarden["1"].title, valfarden["1"].price);
-        buildDiv("Lilla Köket", lillakoket["1"].title, lillakoket["1"].price);
-        buildDiv("La Bonne Vie", labonnevie["Dagens rätt"].title, labonnevie["Dagens rätt"].price);
-        buildDiv("MH Matsalar", "Just nu serverar inte MH Matsalar någon mat.", 0);
     });
 });
 
 
+// function loop_restaurant(restaurant_ingridients) {
+//     var foodItems = [];
+//     var food_obj = {};
+//
+//     $.ajaxPrefilter(function(options) {
+//         if (options.crossDomain && jQuery.support.cors) {
+//             var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+//             options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
+//         }
+//     });
+//
+//     for (var i = 0; i < restaurant_ingridients.length; i++) {
+//         if (restaurant_ingridients[i] != undefined) {
+//             if (restaurant_ingridients[i].length > 3) {
+//                 $.getJSON(
+//                     callurl + restaurant_ingridients[i],
+//                     function(ingridient) {
+//                         if (ingridient[0] != undefined) {
+//                             $.get(
+//                                 'http://www.matapi.se/foodstuff/' + ingridient[0].number,
+//                                 function(nutrition) {
+//                                     food_obj = nutrition;
+//                                     return food_obj;
+//                                 });
+//                             //foodItems.push(response[0].number);
+//                         }
+//                     });
+//             }
+//         }
+//     }
+//     //return foodItems;
+// }
 
-function loop_restaurant(restaurant) {
-    var foodItems = [];
-    $.ajaxPrefilter(function(options) {
-        if (options.crossDomain && jQuery.support.cors) {
-            var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
-            options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
-        }
-    });
-
-    for (var i = 0; i < restaurant.length; i++) {
-        if (restaurant[i] != undefined) {
-            if (restaurant[i].length > 3) {
-                $.getJSON(
-                    callurl + restaurant[i],
-                    function(response) {
-                        if (response[0] != undefined) {
-                            foodItems.push(response[0].number);
-                        }
-                    });
-            }
+function short(words) {
+    var longwords = [];
+    for (var i = 0; i < words.length; i++) {
+        if (words[i].length > 3) {
+            longwords.push(words[i]);
         }
     }
-    return foodItems;
+    return longwords;
 }
 
 
-function loop_nutrition(food_type) {
-    console.log(food_type.length);
-    for (var i = 0; i < food_type.length; i++) {
-        console.log(food_type[i].value);
-    }
-}
-
-
-function buildDiv(restaurant, lunchtitle, price) {
+function buildDiv(restaurant, lunchtitle, price, nutrient) {
     html = '<div class="row"><div class="col-sm-6"><h2>' + restaurant + '</h2>' +
-        '<div><p class="col-sm-8">' + lunchtitle + '</p><p class="col-sm-4">' + price + '</p>' +
+        '<div><p class="col-sm-8">' + lunchtitle + '</p><p class="col-sm-4">' + price + ' Carbs -' + nutrient + '</p>' +
         '</div></div><div class="col-sm-3"><p>Järn 100%</p><p>Kalcium 20%</p><p>Magnesium >0%</p>' +
         '</div><div class="col-sm-3"><p>Nått diagram</p><p>Senast jag åt här var det gott!</p></div></div>';
     $("#restaurant_info").append(html);
