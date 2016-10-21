@@ -1,11 +1,20 @@
 var callurl = "http://www.matapi.se/foodstuff?query=";
 var niagaraNumbers = [];
+var restaurant_nutritions = [];
+var niagaraNutritions = {};
 var labonnevieNumbers = [];
 var miamariaNumbers = [];
 var valfardenNumbers = [];
 var lillakoketNumbers = [];
 var hold = [];
 var description;
+var carbs = 0;
+var kcal = 0;
+var magnesium = 0;
+var protein = 0;
+var calcium = 0;
+var fat = 0;
+
 
 
 function deleteUnicorn(unicorn) {
@@ -172,7 +181,7 @@ $(document).ready(function() {
                 console.log(data[i]['description']);
                 $('#review_info').append(data[i]['description'])
                 description = data[i]['description'];
-                    //  $('#restaurant_' + i).click(fetchAndUpdateInfo(data[i]['details']));
+                //  $('#restaurant_' + i).click(fetchAndUpdateInfo(data[i]['details']));
             }
         });
 
@@ -212,52 +221,168 @@ $(document).ready(function() {
         // Har ingen mat för tillfället.
         mhmatsalar = data["MH Matsalar"];
 
-        var restaurants = [];
-        var counter = 0;
+        loopit("Mia Maria", miamariaLunch, miamaria);
+        loopit("Välfärden", valfardenLunch, valfarden);
+        loopit("Lilla Köket", lillakoketLunch, lillakoket);
+        loopit("La Bonne Vie", labonnevieLunch, labonnevie);
+        loopit("Restaurang Niagara", niagaraLunch, niagara);
 
-        Array.prototype.push.apply(restaurants, [niagaraLunch, miamariaLunch, valfardenLunch, lillakoketLunch, labonnevieLunch]);
 
-        for (var i = 0; i < restaurants.length; i++) {
-            for (var j = 0; j < restaurants[i].length; j++) {
-                if (restaurants[i][j] != undefined) {
-                    if (restaurants[i][j].length > 3) {
-                        console.log(restaurants[i][j]);
-                        $.getJSON(
-                            callurl + restaurants[i][j],
-                            function(ingridient) {
-                                if (ingridient[0] != undefined) {
-                                    $.get(
-                                        'http://www.matapi.se/foodstuff/' + ingridient[0].number,
-                                        function(nutrition) {
-                                            counter++;
-                                            if (counter == 1) {
-                                                console.log(nutrition);
-                                                buildDiv("Restaurang Niagara", niagara.Local.title, niagara.Local.price, nutrition.nutrientValues.carbohydrates, description);
-                                            } else if (counter == 2) {
-                                                buildDiv("Mia Maria", miamaria.Kött.title, miamaria.Kött.price. nutrition.nutrientValues.carbohydrates);
-                                                console.log(nutrition);
-                                            } else if (counter == 3) {
-                                                buildDiv("Välfärden", valfarden["1"].title, valfarden["1"].price, nutrition.nutrientValues.carbohydrates);
-                                                console.log(nutrition);
-                                            } else if (counter == 4) {
-                                                buildDiv("Lilla Köket", lillakoket["1"].title, lillakoket["1"].price, nutrition.nutrientValues.carbohydrates);
-                                                console.log(nutrition);
-                                            } else if (counter == 5) {
-                                                buildDiv("La Bonne Vie", labonnevie["Dagens rätt"].title, labonnevie["Dagens rätt"].price, nutrition.nutrientValues.carbohydrates);
-                                                console.log(nutrition);
-                                            } else if (counter == 6) {
-                                                buildDiv("MH Matsalar", "Just nu serverar inte MH Matsalar någon mat.", 0);
-                                            }
-                                        });
-                                    //foodItems.push(response[0].number);
-                                }
-                            });
-                    }
-                }
-            }
-        }
+        // var counter = 0;
+        //
+        //
+        // for (var i = 0; i < niagaraLunch.length; i++) {
+        //     if (niagaraLunch[i] != undefined) {
+        //         $.get(
+        //             callurl + niagaraLunch[i],
+        //             function(ingridient) {
+        //                 counter++;
+        //                 if (ingridient[0] != undefined) {
+        //                     niagaraNumbers.push(ingridient[0].number);
+        //                 }
+        //                 if (counter == i) {
+        //                     for (var j = 0; j < niagaraNumbers.length; j++) {
+        //                         $.get(
+        //                             'http://www.matapi.se/foodstuff/' + niagaraNumbers[j],
+        //                             function(nutritions) {
+        //                                 console.log(nutritions);
+        //                                 carbs += nutritions.nutrientValues.carbohydrates;
+        //                                 kcal += nutritions.nutrientValues.vitaminC;
+        //                                 magnesium += nutritions.nutrientValues.magnesium;
+        //                                 protein += nutritions.nutrientValues.protein;
+        //                                 calcium += nutritions.nutrientValues.calcium;
+        //                                 fat += nutritions.nutrientValues.fat;
+        //
+        //                                 niagaraNutritions = {
+        //                                     "carbs": carbs,
+        //                                     "kcal": kcal,
+        //                                     "magnesium": magnesium,
+        //                                     "protein": protein,
+        //                                     "calcium": calcium,
+        //                                     "fat": fat
+        //                                 }
+        //                                 console.log(JSON.stringify(niagaraNutritions));
+        //                             }
+        //                         )
+        //                     }
+        //                 }
+        //             }
+        //         );
+        //     }
+        // }
+
+
+
+
+
+
+
+
+        // Array.prototype.push.apply(restaurants, [niagaraLunch, miamariaLunch, valfardenLunch, lillakoketLunch, labonnevieLunch]);
+        //
+        // for (var i = 0; i < restaurants.length; i++) {
+        //     for (var j = 0; j < restaurants[i].length; j++) {
+        //         if (restaurants[i][j] != undefined) {
+        //             if (restaurants[i][j].length > 3) {
+        //                 console.log(restaurants[i][j]);
+        //                 $.getJSON(
+        //                     callurl + restaurants[i][j],
+        //                     function(ingridient) {
+        //                         if (ingridient[0] != undefined) {
+        //                             $.get(
+        //                                 'http://www.matapi.se/foodstuff/' + ingridient[0].number,
+        //                                 function(nutrition) {
+        //                                     counter++;
+        //                                     if (counter == 1) {
+        //                                         // console.log(nutrition);
+        //                                         var high = high_nutrition(nutrition);
+        //                                         buildDiv("Restaurang Niagara", niagara.Local.title, niagara.Local.price, nutrition.nutrientValues.carbohydrates, description);
+        //                                     } else if (counter == 2) {
+        //                                         buildDiv("Mia Maria", miamaria.Kött.title, miamaria.Kött.price. nutrition.nutrientValues.carbohydrates);
+        //                                         // console.log(nutrition);
+        //                                     } else if (counter == 3) {
+        //                                         buildDiv("Välfärden", valfarden["1"].title, valfarden["1"].price, nutrition.nutrientValues.carbohydrates);
+        //                                         // console.log(nutrition);
+        //                                     } else if (counter == 4) {
+        //                                         buildDiv("Lilla Köket", lillakoket["1"].title, lillakoket["1"].price, nutrition.nutrientValues.carbohydrates);
+        //                                         // console.log(nutrition);
+        //                                     } else if (counter == 5) {
+        //                                         buildDiv("La Bonne Vie", labonnevie["Dagens rätt"].title, labonnevie["Dagens rätt"].price, nutrition.nutrientValues.carbohydrates);
+        //                                         // console.log(nutrition);
+        //                                     } else if (counter == 6) {
+        //                                         buildDiv("MH Matsalar", "Just nu serverar inte MH Matsalar någon mat.", 0);
+        //                                     }
+        //                                 });
+        //                         }
+        //                     });
+        //             }
+        //         }
+        //     }
+        // }
     });
 });
+
+
+function loopit(restaurant_name, ingridients, restaurant) {
+    hold = [];
+    carbs = kcal = magnesium = protein = calcium = fat = 0;
+    delete restaurant_nutritions[c];
+    var counter = 0;
+    var loop_counter = 0;
+
+    for (var i = 0; i < ingridients.length; i++) {
+        if (ingridients[i] != undefined) {
+            $.get(
+                callurl + ingridients[i],
+                function(ingridient) {
+                    counter++;
+                    if (ingridient[0] != undefined) {
+                        hold.push(ingridient[0].number);
+                    }
+                    if (counter == i) {
+                        for (var j = 0; j < hold.length; j++) {
+                            $.get(
+                                'http://www.matapi.se/foodstuff/' + hold[j],
+                                function(nutritions) {
+                                    loop_counter++;
+                                    console.log(nutritions);
+                                    carbs += nutritions.nutrientValues.carbohydrates;
+                                    console.log(restaurant_name + " carbs just nu:" + carbs);
+                                    kcal += nutritions.nutrientValues.vitaminC;
+                                    magnesium += nutritions.nutrientValues.magnesium;
+                                    protein += nutritions.nutrientValues.protein;
+                                    calcium += nutritions.nutrientValues.calcium;
+                                    fat += nutritions.nutrientValues.fat;
+
+                                    restaurant_nutritions = {
+                                        c : carbs,
+                                        k : kcal,
+                                        m : magnesium,
+                                        p : protein,
+                                        ca : calcium,
+                                        f : fat
+                                    }
+
+                                    if (loop_counter == j) {
+                                        if (restaurant_name == 'Restaurang Niagara') {
+                                            buildDiv(restaurant_name, restaurant.Local.title, restaurant.Local.price, restaurant_nutritions.c, description);
+                                        } else if (restaurant_name == 'Mia Maria') {
+                                            buildDiv(restaurant_name, restaurant.Kött.title, restaurant.Kött.price, restaurant_nutritions.c, description);
+                                        } else if (restaurant_name == 'Välfärden' || restaurant_name == 'Lilla Köket') {
+                                            buildDiv(restaurant_name, restaurant["1"].title, restaurant["1"].price, restaurant_nutritions.c, description);
+                                        } else if (restaurant_name == 'La Bonne Vie') {
+                                            buildDiv(restaurant_name, restaurant["Dagens rätt"].title, restaurant["Dagens rätt"].price, restaurant_nutritions.c, description);
+                                        }
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
+            );
+        }
+    }
+}
 
 
 // function loop_restaurant(restaurant_ingridients) {
@@ -292,6 +417,10 @@ $(document).ready(function() {
 //     }
 //     //return foodItems;
 // }
+
+function high_nutrition(all_nutritions) {
+    console.log(all_nutritions);
+}
 
 function short(words) {
     var longwords = [];
