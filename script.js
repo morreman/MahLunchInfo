@@ -164,13 +164,8 @@ $(document).ready(function() {
             }
         })
         .done(function(data) {
-            list = $('.restaurant_row');
-            for (i = 0; i < data.length; i++) {
-                console.log(data[i]['description']);
-                $('#review_info').append(data[i]['description'])
-                description = data[i]['description'];
-                //  $('#restaurant_' + i).click(fetchAndUpdateInfo(data[i]['details']));
-            }
+            console.log(data);
+            description = data;
         });
 
     $.ajax({
@@ -209,6 +204,7 @@ $(document).ready(function() {
         // Har ingen mat för tillfället.
         mhmatsalar = data["MH Matsalar"];
 
+
         loopit("Mia Maria", miamariaLunch, miamaria);
         loopit("Välfärden", valfardenLunch, valfarden);
         loopit("Lilla Köket", lillakoketLunch, lillakoket);
@@ -216,7 +212,6 @@ $(document).ready(function() {
         loopit("Restaurang Niagara", niagaraLunch, niagara);
     });
 });
-
 
 function loopit(restaurant_name, ingridients, restaurant) {
     var hold = [];
@@ -228,6 +223,7 @@ function loopit(restaurant_name, ingridients, restaurant) {
     var fat = 0;
     var counter = 0;
     var loop_counter = 0;
+    var comment;
 
     for (var i = 0; i < ingridients.length; i++) {
         if (ingridients[i] != undefined) {
@@ -264,13 +260,40 @@ function loopit(restaurant_name, ingridients, restaurant) {
 
                                     if (loop_counter == j) {
                                         if (restaurant_name == 'Restaurang Niagara') {
-                                            buildDiv(restaurant_name, restaurant.Local.title, restaurant.Local.price, restaurant_nutritions.c, description);
+                                            description.forEach(function(entry) {
+                                                if (entry.name == 'Restaurang Niagara') {
+                                                    comment = entry.description;
+                                                }
+                                            });
+                                            buildDiv(restaurant_name, restaurant.Local.title, restaurant.Local.price, restaurant_nutritions.c, comment);
                                         } else if (restaurant_name == 'Mia Maria') {
-                                            buildDiv(restaurant_name, restaurant.Kött.title, restaurant.Kött.price, restaurant_nutritions.c, description);
-                                        } else if (restaurant_name == 'Välfärden' || restaurant_name == 'Lilla Köket') {
-                                            buildDiv(restaurant_name, restaurant["1"].title, restaurant["1"].price, restaurant_nutritions.c, description);
+                                            description.forEach(function(entry) {
+                                                if (entry.name == 'Mia Maria') {
+                                                    comment = entry.description;
+                                                }
+                                            });
+                                            buildDiv(restaurant_name, restaurant.Kött.title, restaurant.Kött.price, restaurant_nutritions.c, comment);
+                                        } else if (restaurant_name == 'Välfärden') {
+                                            description.forEach(function(entry) {
+                                                if (entry.name == 'Välfärden') {
+                                                    comment = entry.description;
+                                                }
+                                            });
+                                            buildDiv(restaurant_name, restaurant["1"].title, restaurant["1"].price, restaurant_nutritions.c, comment);
+                                        } else if (restaurant_name == 'Lilla Köket') {
+                                            description.forEach(function(entry) {
+                                                if (entry.name == 'Lilla Köket') {
+                                                    comment = entry.description;
+                                                }
+                                            });
+                                            buildDiv(restaurant_name, restaurant["1"].title, restaurant["1"].price, restaurant_nutritions.c, comment);
                                         } else if (restaurant_name == 'La Bonne Vie') {
-                                            buildDiv(restaurant_name, restaurant["Dagens rätt"].title, restaurant["Dagens rätt"].price, restaurant_nutritions.c, description);
+                                            description.forEach(function(entry) {
+                                                if (entry.name == 'La Bonne Vie') {
+                                                    comment = entry.description;
+                                                }
+                                            });
+                                            buildDiv(restaurant_name, restaurant["Dagens rätt"].title, restaurant["Dagens rätt"].price, restaurant_nutritions.c, comment);
                                         }
                                     }
                                 }
