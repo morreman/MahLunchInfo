@@ -12,14 +12,19 @@
 .restaurant_row {
     min-height: 200px;
     padding: 20px;
-    margin: 10px;
+    margin: 5px;
+    border-radius: 10px;
 }
 
 .jumbotron {
-    background-image: url(http://previews.123rf.com/images/nikkiphoto/nikkiphoto1404/nikkiphoto140400001/27569571-Fresh-organic-vegetables-Food-background-Healthy-food-from-garden-Stock-Photo.jpg);
+    background-color: green;
     background-position: 0% 90%;
     background-size: cover;
     background-repeat: no-repeat;
     text-shadow: white 0.3em 0.3em 0.3em;
     margin: 10px;
+    text-align: center;
+}
+#restaurant_info{
+  margin: 20px;
 }

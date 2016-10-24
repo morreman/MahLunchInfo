@@ -1,8 +1,8 @@
 var callurl = "http://www.matapi.se/foodstuff?query=";
 var restaurant_nutritions = [];
 var description;
-
-
+var colors = ["#a8dba8", "#cff09e", "#79bd9a", "#3b8686"];
+var i = 0;
 
 
 function deleteUnicorn(unicorn) {
@@ -257,6 +257,26 @@ function loopit(restaurant_name, ingridients, restaurant) {
                                         ca: calcium,
                                         f: fat
                                     }
+                                    var nutri_str = [];
+                                    if (restaurant_nutritions.c > 50) {
+                                        nutri_str.push("Kolhydrater");
+                                    }
+                                    if (restaurant_nutritions.k > 75) {
+                                        nutri_str.push("Kalorier");
+                                    }
+                                    if (restaurant_nutritions.m > 2) {
+                                        nutri_str.push("Magnesium");
+                                    }
+                                    if (restaurant_nutritions.p > 25) {
+                                        nutri_str.push("Protein");
+                                    }
+                                    if (restaurant_nutritions.ca > 5) {
+                                        nutri_str.push("Kalcium");
+                                    }
+                                    if (restaurant_nutritions.f > 100) {
+                                        nutri_str.push("Fett");
+                                    }
+                                    console.log(nutri_str);
 
                                     if (loop_counter == j) {
                                         if (restaurant_name == 'Restaurang Niagara') {
@@ -265,35 +285,35 @@ function loopit(restaurant_name, ingridients, restaurant) {
                                                     comment = entry.description;
                                                 }
                                             });
-                                            buildDiv(restaurant_name, restaurant.Local.title, restaurant.Local.price, restaurant_nutritions.c, comment);
+                                            buildDiv(restaurant_name, restaurant.Local.title, restaurant.Local.price, nutri_str, comment);
                                         } else if (restaurant_name == 'Mia Maria') {
                                             description.forEach(function(entry) {
                                                 if (entry.name == 'Mia Maria') {
                                                     comment = entry.description;
                                                 }
                                             });
-                                            buildDiv(restaurant_name, restaurant.Kött.title, restaurant.Kött.price, restaurant_nutritions.c, comment);
+                                            buildDiv(restaurant_name, restaurant.Kött.title, restaurant.Kött.price, nutri_str, comment);
                                         } else if (restaurant_name == 'Välfärden') {
                                             description.forEach(function(entry) {
                                                 if (entry.name == 'Välfärden') {
                                                     comment = entry.description;
                                                 }
                                             });
-                                            buildDiv(restaurant_name, restaurant["1"].title, restaurant["1"].price, restaurant_nutritions.c, comment);
+                                            buildDiv(restaurant_name, restaurant["1"].title, restaurant["1"].price, nutri_str, comment);
                                         } else if (restaurant_name == 'Lilla Köket') {
                                             description.forEach(function(entry) {
                                                 if (entry.name == 'Lilla Köket') {
                                                     comment = entry.description;
                                                 }
                                             });
-                                            buildDiv(restaurant_name, restaurant["1"].title, restaurant["1"].price, restaurant_nutritions.c, comment);
+                                            buildDiv(restaurant_name, restaurant["1"].title, restaurant["1"].price, nutri_str, comment);
                                         } else if (restaurant_name == 'La Bonne Vie') {
                                             description.forEach(function(entry) {
                                                 if (entry.name == 'La Bonne Vie') {
                                                     comment = entry.description;
                                                 }
                                             });
-                                            buildDiv(restaurant_name, restaurant["Dagens rätt"].title, restaurant["Dagens rätt"].price, restaurant_nutritions.c, comment);
+                                            buildDiv(restaurant_name, restaurant["Dagens rätt"].title, restaurant["Dagens rätt"].price, nutri_str, comment);
                                         }
                                     }
                                 }
@@ -316,9 +336,42 @@ function short(words) {
 }
 
 function buildDiv(restaurant, lunchtitle, price, nutrient, description) {
-    html = '<div class="row"><div class="col-sm-6"><h2>' + restaurant + '</h2>' +
-        '<div><p class="col-sm-8">' + lunchtitle + '</p><p class="col-sm-4">' + price + ' Carbs -' + nutrient + ' Comment-' + description + '</p>' +
-        '</div></div><div class="col-sm-3"><p>Järn 100%</p><p>Kalcium 20%</p><p>Magnesium >0%</p>' +
-        '</div><div class="col-sm-3"><p>Nått diagram</p><p>Senast jag åt här var det gott!</p></div></div>';
+    if (price == undefined || price == "") {
+        price = "0";
+    }
+    html = '<div id="' + i + '" class="row restaurant_row"><div class="col-sm-6"><h2>' + restaurant + '</h2>' +
+        '<div><p class="col-sm-8">' + lunchtitle + '</p><p class="col-sm-4">Pris: ' + price.replace(/\D/g, '') + 'kr</p>' +
+        '</div></div><div class="col-sm-3"><br><h4>Näring</h4><p>I den här rätten finns det mycket:</p><p>' + nutrient + '</p>' +
+        '</div><div class="col-sm-3"><br><h4>Betyg</h4><p>Nått diagram</p><p>' + description + '</p></div></div>';
+    var index = Math.floor(Math.random() * colors.length);
     $("#restaurant_info").append(html);
+    $('#' + i).css("background-color", colors[index]);
+    i++;
+}
+
+
+$(document).ready(function() {
+    spanColors();
+
+
+});
+$(document).on('ready page:load', function() {
+    spanColors();
+});
+
+
+function spanColors() {
+    var span = $('.jumbotron');
+    span.css('background-color', colors[0]);
+    setInterval(function() {
+        span.animate({
+            "background-color": colors[0]
+        }, 4000).animate({
+            "background-color": colors[1]
+        }, 4000).animate({
+            "background-color": colors[2]
+        }, 4000).animate({
+            "background-color": colors[3]
+        }, 4000);
+    });
 }
