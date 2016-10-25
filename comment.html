@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Kommentera</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Form for adding a user -->
+        <div class="form-group col-sm-8 col-sm-offset-2" id="form_div">
+            <h2 class="text-center">Lägg till en recension</h2>
+            <form action="javascript:postUnicorn()" method="POST" id="submit_form">
+                <label for="restaurant">Restaurangens namn</label>
+                <input class="form-control" type="text" name="restaurant" value="">
+                <br><br>
+                <label for="grade">Betyg</label>
+                <input class="form-control" type="text" name="grade" value="" placeholder="1-5">
+                <br><br>
+                <label for="reportedBy">Avsändare</label>
+                <input class="form-control" type="text" name="reportedBy" value="" placeholder="Mike Bike">
+                <br><br>
+                <label for="decription">Kommentar</label>
+                <textarea class="form-control" name="description" form="submit_form" cols="30" rows="5"></textarea>
+                <br><br>
+                <input class="form-control btn-warning" type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="post.js"></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</html>

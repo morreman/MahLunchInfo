@@ -55,49 +55,6 @@ function putUnicorn(unicorn) {
     }
 }
 
-
-
-function postUnicorn() {
-    return function() {
-        var data = {}; // Datan som skickas ska vara ett Javascript-objekt
-        data.name = $('#newUnicorn input[name=name]').val();
-        data.description = $('#newUnicorn textarea[name=description]').val();
-        data.reportedBy = $('#newUnicorn input[name=reportedBy]').val();
-        data.spottedWhere = {};
-        data.spottedWhere.name = $('#newUnicorn input[name="spottedWhere.name"]').val();
-        data.spottedWhere.lat = $('#newUnicorn input[name="spottedWhere.lat"]').val();
-        data.spottedWhere.lon = $('#newUnicorn input[name="spottedWhere.lon"]').val();
-        /*
-         * Eftersom datumväljaren inte lägger till någon tid, får vi göra det på
-         * egen hand, men bara om vi verkligen behöver det.
-         */
-        data.spottedWhen = $('#existingUnicorn input[name=spottedWhen]').val();
-        if (data.spottedWhen.length == 10) {
-            data.spottedWhen += ' 00:00:00';
-        }
-        data.image = $('#newUnicorn input[name=image]').val();
-
-        $.ajax({ // Här görs anropet till API:t.
-                method: "POST",
-                url: 'http://localhost:8080',
-                data: JSON.stringify(data),
-                headers: {
-                    "Accept": "application/json"
-                }
-            })
-            .done(function(result) {
-                /*
-                 * Vi lägger till de här utskrifterna för att se vad vi skickat upp. I
-                 * nästa steg tar vi bort dem igen.
-                 */
-                console.log('Lade till följande data:');
-                console.log(JSON.stringify(data));
-            });
-    }
-}
-
-
-
 function fetchAndUpdateInfo(details) {
     return function() {
         $.ajax({
