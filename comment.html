@@ -17,19 +17,34 @@
         <div class="form-group col-sm-8 col-sm-offset-2" id="form_div">
             <h2 class="text-center">Lägg till en recension</h2>
             <form action="javascript:postUnicorn()" method="POST" id="submit_form">
-                <label for="restaurant">Restaurangens namn</label>
-                <input class="form-control" type="text" name="restaurant" value="">
-                <br><br>
+                <div class="form-group">
+                    <label for="restaurant">Välj Restarurang:</label>
+                    <select class="form-control" id="restaurant">
+                      <option>Restaurang Niagara</option>
+                      <option>Mia Maria</option>
+                      <option>Välfärden</option>
+                      <option>Lilla Köket</option>
+                      <option>La Bonne Vie</option>
+                  </select>
+                </div>
+                <br>
                 <label for="grade">Betyg</label>
-                <input class="form-control" type="text" name="grade" value="" placeholder="1-5">
-                <br><br>
+                <input class="form-control" type="number" min='0' max='5' data-bind="value:replyNumber" name="grade" value="" placeholder="1-5">
+                <br>
                 <label for="reportedBy">Avsändare</label>
                 <input class="form-control" type="text" name="reportedBy" value="" placeholder="Mike Bike">
-                <br><br>
+                <br>
                 <label for="decription">Kommentar</label>
-                <textarea class="form-control" name="description" form="submit_form" cols="30" rows="5"></textarea>
-                <br><br>
-                <input class="form-control btn-warning" type="submit" value="Submit">
+                <textarea class="form-control" name="description" form="submit_form" cols="30" rows="5" maxlength="140"></textarea>
+                <br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input class="form-control button btn-warning col-sm-6" type="submit" value="Submit">
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-control button btn-danger col-sm-6" type="button" name="back" onClick="goBack()" value="Tillbaka">
+                    </div>
+                </div>
             </form>
         </div>
     </div>

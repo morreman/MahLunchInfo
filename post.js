@@ -1,8 +1,8 @@
 function postUnicorn() {
-
+    var e = document.getElementById("restaurant");
     var data = {}; // Datan som skickas ska vara ett Javascript-objekt
     data.grade = $('#submit_form input[name=grade]').val();
-    data.restaurant = $('#submit_form input[name=restaurant]').val();
+    data.restaurant = e.options[e.selectedIndex].value;
     data.description = $('#submit_form textarea[name=description]').val();
     data.reportedBy = $('#submit_form input[name=reportedBy]').val();
     console.log(JSON.stringify(data));
@@ -19,4 +19,8 @@ function postUnicorn() {
         $("#form_div").empty().append("<h1 class='text-center'>Tack för din medverkan.</h1>"
         + "<br><a href='index.html'><button class='button btn-warning backbutton center-block'>Tillbaka till lunchsidan</button></a>" );
     });
+}
+
+function goBack(){
+  window.history.back();
 }

@@ -301,6 +301,7 @@ function buildDiv(restaurant, lunchtitle, price, nutrient, description) {
         '</div></div><div class="col-sm-3"><br><h4>Näring</h4><p>I den här rätten finns det mycket:</p><p>' + nutrient + '</p>' +
         '</div><div class="col-sm-3"><br><h4>Betyg</h4><p>Nått diagram</p><p>' + description + '</p></div></div>';
     var index = Math.floor(Math.random() * colors.length);
+    $('#spinner').hide();
     $("#restaurant_info").append(html);
     $('#' + i).css("background-color", colors[index]);
     i++;
@@ -308,6 +309,7 @@ function buildDiv(restaurant, lunchtitle, price, nutrient, description) {
 
 
 $(document).ready(function() {
+    $("#spinner").append("<i class='fa fa-spinner fa-spin' style='font-size:200px'></i> ");
     spanColors();
 
 
