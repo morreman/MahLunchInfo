@@ -1,17 +1,5 @@
-.restaurant_div {
-    background-image: url(http://stiritupmagazine.co.uk/wp-content/uploads/2015/03/Hospital-food-background.jpg);
-    background-position: 0% 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    text-shadow: white 0.5em 0.5em 0.5em;
-    font-size: 30px;
-    font-weight: bold;
-    border-radius: 20px;
-}
-
 .restaurant_row {
     min-height: 200px;
-    padding: 20px;
     margin: 5px;
     border-radius: 10px;
 }
@@ -26,7 +14,7 @@
     text-align: center;
 }
 #restaurant_info{
-  margin: 20px;
+
 }
 
 .btnrec{
