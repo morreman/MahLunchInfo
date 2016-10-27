@@ -65,15 +65,16 @@ $(document).ready(function() {
         mhmatsalar = data["MH Matsalar"];
 
 
-        loopit("Mia Maria", miamariaLunch, miamaria);
         loopit("Välfärden", valfardenLunch, valfarden);
         loopit("Lilla Köket", lillakoketLunch, lillakoket);
         loopit("La Bonne Vie", labonnevieLunch, labonnevie);
+        loopit("Mia Maria", miamariaLunch, miamaria);
         loopit("Restaurang Niagara", niagaraLunch, niagara);
     });
 });
 
 function loopit(restaurant_name, ingridients, restaurant) {
+
     var hold = [];
     var carbs = 0;
     var kcal = 0;

@@ -13,18 +13,8 @@
     margin: 10px;
     text-align: center;
 }
-#restaurant_info{
-
-}
 
 .btnrec{
   padding: 20px;
-  border-radius: 20px;
-}
-
-.backbutton{
-  font-size: 20px;
-  padding: 100px;
-  margin: 100px;
   border-radius: 20px;
 }
