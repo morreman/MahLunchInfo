@@ -82,6 +82,8 @@ function loopit(restaurant_name, ingridients, restaurant) {
     var protein = 0;
     var calcium = 0;
     var fat = 0;
+    var dVit = 0;
+    var cVit = 0;
     var counter = 0;
     var loop_counter = 0;
     var recension = {};
@@ -103,11 +105,13 @@ function loopit(restaurant_name, ingridients, restaurant) {
                                     loop_counter++;
 
                                     carbs += nutritions.nutrientValues.carbohydrates;
-                                    kcal += nutritions.nutrientValues.vitaminC;
+                                    kcal += nutritions.nutrientValues.energyKcal;
                                     magnesium += nutritions.nutrientValues.magnesium;
                                     protein += nutritions.nutrientValues.protein;
                                     calcium += nutritions.nutrientValues.calcium;
                                     fat += nutritions.nutrientValues.fat;
+                                    dVit += nutritions.nutrientValues.vitaminD;
+                                    cVit += nutritions.nutrientValues.vitaminC;
 
                                     restaurant_nutritions = {
                                         c: carbs,
@@ -115,26 +119,35 @@ function loopit(restaurant_name, ingridients, restaurant) {
                                         m: magnesium,
                                         p: protein,
                                         ca: calcium,
-                                        f: fat
+                                        f: fat,
+                                        dv: dVit,
+                                        cv: cVit
                                     }
                                     var nutri_str = [];
-                                    if (restaurant_nutritions.c > 50) {
+                                    console.log(restaurant_nutritions);
+                                    if (restaurant_nutritions.c > 10) {
                                         nutri_str.push("Kolhydrater");
                                     }
-                                    if (restaurant_nutritions.k > 75) {
+                                    if (restaurant_nutritions.k > 50) {
                                         nutri_str.push("Kalorier");
                                     }
-                                    if (restaurant_nutritions.m > 2) {
+                                    if (restaurant_nutritions.m > 100) {
                                         nutri_str.push("Magnesium");
                                     }
-                                    if (restaurant_nutritions.p > 25) {
+                                    if (restaurant_nutritions.p > 30) {
                                         nutri_str.push("Protein");
                                     }
-                                    if (restaurant_nutritions.ca > 5) {
+                                    if (restaurant_nutritions.ca > 200) {
                                         nutri_str.push("Kalcium");
                                     }
-                                    if (restaurant_nutritions.f > 100) {
+                                    if (restaurant_nutritions.f > 35) {
                                         nutri_str.push("Fett");
+                                    }
+                                    if (restaurant_nutritions.dv > 2) {
+                                      nutri_str.push("VitaminD");
+                                    }
+                                    if (restaurant_nutritions.cv > 25) {
+                                      nutri_str.push("VitaminC");
                                     }
 
                                     if (loop_counter == j) {
@@ -233,12 +246,11 @@ function buildDiv(restaurant, lunchtitle, price, nutrient, description) {
         description.reportedBy = "";
         description.description = "";
     }
-
-    html = '<div id="' + i + '" class="row restaurant_row"><div class="col-sm-6"><h2>' + restaurant + '</h2>' +
-        '<div class= "row"><p class="col-sm-8">' + lunchtitle + '</p><p class="col-sm-4"><b>Pris: ' + price.replace(/\D/g, '') + 'kr</b></p>' +
-        '</div></div><div class="col-sm-3"><br><h4>Näring</h4><p>I den här rätten finns det mycket:</p><p><b>' + nutrient + '</b></p>' +
-        '</div><div class="col-sm-3"><br><h4>Betyg ' + description.grade + av5 + '</h4><h5>Senaste recensionen: </h5><p>' + description.description + '</p>' +
-        '<p>Postat av: ' + description.reportedBy + '</div></div>';
+    html = '<div id="' + i + '" class="row restaurant_row"><div class="col-sm-6"><h2>' + restaurant + '</h2><br>' +
+        '<div class=""><p class="col-sm-8"><b>Dagens:</b> ' + lunchtitle + '</p><p class="col-sm-4"><b>Pris: ' + price.replace(/\D/g, '') + 'kr</b></p>' +
+        '</div></div><div class="col-sm-3"><br><h2>Näring</h2><h3>I den här rätten finns det mycket:</h3><p><b>' + nutrient + '</b></p>' +
+        '</div><div class="col-sm-3"><br><h2>Senaste recension</h2><h4>Betyg: ' + description.grade + av5 + '</h4>'  +
+        '<p>' + description.description + '<p>Postat av: ' + description.reportedBy + '</div></div>';
     var index = Math.floor(Math.random() * colors.length);
     $('#spinner').hide();
     $("#restaurant_info").append(html);
@@ -247,7 +259,7 @@ function buildDiv(restaurant, lunchtitle, price, nutrient, description) {
 }
 
 $(document).ready(function() {
-    $("#spinner").append("<i class='fa fa-spinner fa-spin' style='font-size:200px'></i><h5 class='text-center'>Laddar in dagens menyer...</h5> ");
+    $("#spinner").append("<i class='fa fa-spinner fa-spin' style='font-size:200px'></i><h5 class='text-center font'>Laddar in dagens menyer...</h5> ");
     spanColors();
 });
 

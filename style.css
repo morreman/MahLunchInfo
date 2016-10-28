@@ -2,6 +2,16 @@
     min-height: 200px;
     margin: 5px;
     border-radius: 10px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 24px;
+}
+
+.font{
+  font-family: 'Patrick Hand', cursive;
+}
+
+#form_div{
+  font-family: 'Patrick Hand', cursive;
 }
 
 .jumbotron {
@@ -12,6 +22,7 @@
     text-shadow: white 0.3em 0.3em 0.3em;
     margin: 10px;
     text-align: center;
+    font-family: 'Patrick Hand', cursive;
 }
 
 .btnrec{
