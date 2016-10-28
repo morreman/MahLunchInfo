@@ -247,7 +247,7 @@ function buildDiv(restaurant, lunchtitle, price, nutrient, description) {
 }
 
 $(document).ready(function() {
-    $("#spinner").append("<i class='fa fa-spinner fa-spin' style='font-size:200px'></i> ");
+    $("#spinner").append("<i class='fa fa-spinner fa-spin' style='font-size:200px'></i><h5 class='text-center'>Laddar in dagens menyer...</h5> ");
     spanColors();
 });
 
@@ -257,7 +257,9 @@ $(document).on('ready page:load', function() {
 
 function spanColors() {
     var span = $('.jumbotron');
+    var spin = $('.fa-spinner');
     span.css('background-color', colors[0]);
+    spin.css('color', colors[3]);
     setInterval(function() {
         span.animate({
             "background-color": colors[0]
@@ -267,6 +269,17 @@ function spanColors() {
             "background-color": colors[2]
         }, 4000).animate({
             "background-color": colors[3]
+        }, 4000);
+    });
+    setInterval(function() {
+        spin.animate({
+            "color": colors[3]
+        }, 4000).animate({
+            "color": colors[2]
+        }, 4000).animate({
+            "color": colors[1]
+        }, 4000).animate({
+            "color": colors[0]
         }, 4000);
     });
 }
